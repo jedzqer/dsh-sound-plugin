@@ -2,9 +2,9 @@ English | [中文](README.md)
 
 # dsh-sound-plugin
 
-> Tired of staring at the AI while it works? Install this plugin and just go do something else — scroll videos, grab a coffee. A chime will let you know the moment the AI finishes responding, or when it stops to ask you a question.
+Tired of staring at the AI while it works? Install this plugin and just go do something else — scroll videos, grab a coffee. A chime will let you know the moment the AI finishes responding, or when it stops to ask you a question.
 
-A plugin for the **DeepSeek Harness (DSH) Web UI**: pure client-side, the chimes are synthesized live with Web Audio — no audio assets, no extra network requests, no model calls.
+> A plugin for the **DeepSeek Harness (DSH) Web UI**: pure client-side, the chimes are synthesized live with Web Audio — no audio assets, no extra network requests, no model calls.
 
 ## Features
 
