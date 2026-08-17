@@ -1,0 +1,75 @@
+English | [中文](README.md)
+
+# dsh-sound-plugin
+
+> Tired of staring at the AI while it works? Install this plugin and just go do something else — scroll videos, grab a coffee. A chime will let you know the moment the AI finishes responding.
+
+A plugin for the **DeepSeek Harness (DSH) Web UI**: pure client-side, the chime is synthesized live with Web Audio — no audio assets, no extra network requests, no model calls.
+
+## Features
+
+- 🔔 **Responds when the whole turn ends** — signals on the current session's `running` bit flipping true→false; fires on completion, error, max-tokens, and stop alike.
+- 🤖 **Subagent-aware** — stays silent while a background subagent is still running; it only chimes once the whole task, subagents included, is really done.
+- 🎛️ **Per-browser control** — mute, adjust volume, or chime only when the tab is hidden, all via `localStorage`, no code changes.
+- 🔊 **Zero-asset** — the two-tone chime is synthesized with Web Audio; no audio files, no network requests.
+- 🖱️ **Autoplay-policy friendly** — warms up the `AudioContext` on the first user gesture, so no manual click is needed to unlock sound.
+- 🧹 **Self-cleaning** — releases all subscriptions and listeners on unload / HMR.
+
+## Installation
+
+### Prerequisites
+
+- [DeepSeek Harness](https://www.npmjs.com/package/@deepseek-ai/dsh) installed (the `dsh` command available)
+- [pnpm](https://pnpm.io) (`dsh plugin` manages plugins through it)
+
+### Steps
+
+```sh
+# 1. Add the plugin to the web profile
+dsh plugin --profile web add dsh-sound-plugin
+
+# 2. Restart the web UI so the plugin set takes effect (client module metadata is cached by name)
+dsh web
+```
+
+For local development, you can instead add a local copy from the plugin source directory:
+
+```sh
+dsh plugin --profile web add ./dsh-sound-plugin
+```
+
+To uninstall:
+
+```sh
+dsh plugin --profile web remove dsh-sound-plugin
+```
+
+## Usage / Configuration
+
+The plugin is enabled by default and needs no configuration. Client modules carry no row config, so two levels of control are provided:
+
+- **By code**: edit the `DEFAULTS` constants at the top of `client.js` (`enabled` / `volume` / `hiddenOnly`).
+- **Per browser**: run in the browser's DevTools Console:
+
+```js
+localStorage.setItem("dsh-sound.enabled",    "false");  // mute
+localStorage.setItem("dsh-sound.volume",     "0.25");   // volume 0..1
+localStorage.setItem("dsh-sound.hiddenOnly", "true");   // chime only when the tab is hidden
+```
+
+### Behavior notes
+
+- Listens only to the **current session** (the one selected in the sidebar); switching sessions follows automatically.
+- Error / max-tokens / stop endings chime as well.
+- Subagent (including background subagent) waits do not chime; opening a history conversation does not chime.
+- After editing `client.js`, **no restart** of `dsh web` is needed — just refresh the page (Ctrl+F5 recommended); a restart is only required when adding or removing plugins.
+
+## How it works
+
+- The plugin consists of a Node half (`index.js`, an empty `apply` that only places the plugin in the Host's Loader) and a browser half (`client.js`, discovered through the `dsh.client` declaration).
+- The browser half subscribes to the session-list snapshot and treats the **current session's `running` bit true→false edge** as the "response finished" signal — the same signal the client runtime's own sidebar "done" reminder uses; every real end fires it exactly once.
+- **Subagent gate**: when `running` flips to false, if the session still has any running subagent descendants (`origin: 'subagent'` + `parentId` chain), the plugin stays quiet until the whole task is truly complete.
+
+## License
+
+[MIT](LICENSE)

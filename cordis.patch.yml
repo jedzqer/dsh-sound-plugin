@@ -1,0 +1,5 @@
+# This bundle's patch layer: inserts the dsh-sound-plugin row into the
+# composed loader config. Applied when a profile lists this bundle.
+- insert:
+    - id: dsh-sound-plugin
+      name: dsh-sound-plugin
