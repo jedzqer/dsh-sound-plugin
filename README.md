@@ -16,6 +16,15 @@
 - 🖱️ **自动处理自动播放策略** —— 首次用户手势时预热 `AudioContext`，无需手动点按解锁声音。
 - 🧹 **自动清理** —— 插件卸载 / HMR 时自动释放全部订阅与事件监听。
 
+## 搭配推荐
+
+推荐搭配 [**dsh-retry-plugin**](https://github.com/jedzqer/dsh-retry-plugin) 使用 —— 一款用于 DeepSeek Harness（DSH）的插件，AI 访问报错（网络抖动、限流、服务器 5xx……）时会自动发送「continue」重新发起请求，让对话不中断。配合声音提醒，即使偶发失败被自动重试接住，你也能在任务真正完成时听到提示音。
+
+```sh
+# 同样安装进 web profile
+dsh plugin --profile web add dsh-retry-plugin
+```
+
 ## 安装
 
 ### 前置要求

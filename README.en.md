@@ -16,6 +16,15 @@ Tired of staring at the AI while it works? Install this plugin and just go do so
 - 🖱️ **Autoplay-policy friendly** — warms up the `AudioContext` on the first user gesture, so no manual click is needed to unlock sound.
 - 🧹 **Self-cleaning** — releases all subscriptions and listeners on unload / HMR.
 
+## Recommended Companion
+
+Pair it with [**dsh-retry-plugin**](https://github.com/jedzqer/dsh-retry-plugin) — a plugin for DeepSeek Harness (DSH) that automatically sends "continue" to retry the request when the AI access fails (network hiccups, rate limits, server 5xx…), so the conversation is never interrupted. Combined with the sound alerts, even a transient failure that auto-retry catches still ends with a chime you'll hear when the task is really done.
+
+```sh
+# Install it into the web profile too
+dsh plugin --profile web add dsh-retry-plugin
+```
+
 ## Installation
 
 ### Prerequisites
